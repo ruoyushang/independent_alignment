@@ -4,8 +4,8 @@
 #include <complex>
 #include "string"
 #include "fstream"
-#include "/Users/rshang/pSCT/Eigen/eigen-eigen-323c052e1731/Eigen/Dense"
-#include "/Users/rshang/pSCT/Eigen/eigen-eigen-323c052e1731/Eigen/StdVector"
+#include "/home/rshang/Eigen/eigen-eigen-323c052e1731/Eigen/Dense"
+#include "/home/rshang/Eigen/eigen-eigen-323c052e1731/Eigen/StdVector"
 using namespace Eigen;
 //using Eigen::MatrixXd;
 
@@ -107,16 +107,22 @@ VectorXd BigDeltaVector()
     Delta(3) = 349.083;
     Delta(4) = -38.090;
     Delta(5) = -442.441;
+    //Delta(0) = 121.988;
+    //Delta(1) = -175.078;
+    //Delta(2) = -145.356;
+    //Delta(3) = -349.083;
+    //Delta(4) = 38.090;
+    //Delta(5) = 442.441;
     return Delta;
 }
-VectorXd BuildNoiseVector(VectorXd dS, std::vector<MatrixXcd> Et, int dim) 
+VectorXd BuildNoiseVector(VectorXd dS, std::vector<MatrixXcd> Et) 
 {
-    int n_panels = dim/6;
-    VectorXd noise(dim);
-    noise = VectorXd::Zero(dim);
-    VectorXd dSigma(dim);
-    dSigma = VectorXd::Zero(dim);
-    dSigma.segment(dim-6,6) = BigDeltaVector();
+    int n_panels = 8;
+    VectorXd noise(48);
+    noise = VectorXd::Zero(48);
+    VectorXd dSigma(48);
+    dSigma = VectorXd::Zero(48);
+    dSigma.segment(42,6) = BigDeltaVector();
     for (int i=0;i<n_panels;i++) {
         if (i<n_panels-1) {
             noise.segment(i*6,6) = Et.at(i).real()*dS.segment(i*6,6)+dS.segment((i+1)*6,6)+dSigma.segment(i*6,6);
@@ -124,7 +130,6 @@ VectorXd BuildNoiseVector(VectorXd dS, std::vector<MatrixXcd> Et, int dim)
         else {
             noise.segment(i*6,6) = Et.at(i).real()*dS.segment(i*6,6)+dS.segment((0)*6,6)+dSigma.segment(i*6,6);
         }
-        //std::cout << "Noise = Et_adp*dS(i) + dS(i+1) + dSigma(i): " << noise.segment(i*6,6) << std::endl;
     }
     return noise;
 }
@@ -169,7 +174,8 @@ VectorXd BuilddSmatrix(MatrixXcd Q, MatrixXcd dV, int panel, int dim)
 MatrixXcd BuilddVmatrix(std::vector<MatrixXcd> E, int panel)
 {
     MatrixXcd W(48,48);
-    MatrixXcd dV(48,1);
+    MatrixXcd W_reduced(42,48);
+    MatrixXcd dV(42,1);
     MatrixXcd dSigma(48,1);
     MatrixXcd I(6,6);
     I << 1.0, 0., 0., 0., 0., 0.,
@@ -185,28 +191,17 @@ MatrixXcd BuilddVmatrix(std::vector<MatrixXcd> E, int panel)
         if (i!=7) {
             W.block(i*6,i*6,6,6) = E.at(j).transpose();
             W.block((i+1)*6,i*6,6,6) = I;
-            //dSigma.block(i*6,1,6,1) << 0., 0., 0., 0., 0., 0.;
         }
         else {
             W.block(7*6,7*6,6,6) = E.at(j).transpose();
             W.block(0,7*6,6,6) = I;
-            //dSigma.block(7*6,1,6,1) << 121.988, -175.078, -145.356, -349.083, 38.090, 442.441;
         }
     }
-    //for (int i=0;i<N_panels;i++) {
-    //    //dSigma(i,0) = 0.;
-    //    dSigma.block(i*6,0,6,1) << 0., 0., 0., 0., 0., 0.;
-    //}
+    W_reduced = W.block(6,0,42,48);
     dSigma = MatrixXcd::Zero(48,1);
     dSigma.block(42,0,6,1) = BigDeltaVector();
-    //dSigma(42,0) = -121.988;
-    //dSigma(43,0) = 175.078;
-    //dSigma(44,0) = 145.356;
-    //dSigma(45,0) = 349.083;
-    //dSigma(46,0) = -38.090;
-    //dSigma(47,0) = -442.441;
     std::cout << "Done calculating W and dSigma matrix." << std::endl;
-    dV = W*dSigma;
+    dV = W_reduced*dSigma;
     std::cout << "Done calculating dV matrix." << std::endl;
     return dV;
 }
@@ -231,41 +226,41 @@ int main()
 {
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
 
-    std::vector<MatrixXcd> MR;
-    MR.push_back(MatrixXcd(6,6));
-    MR.at(0) = fillMatrix("M1R");
-    MR.push_back(MatrixXcd(6,6));
-    MR.at(1) = fillMatrix("M2R");
-    MR.push_back(MatrixXcd(6,6));
-    MR.at(2) = fillMatrix("M3R");
-    MR.push_back(MatrixXcd(6,6));
-    MR.at(3) = fillMatrix("M4R");
-    MR.push_back(MatrixXcd(6,6));
-    MR.at(4) = fillMatrix("M5R");
-    MR.push_back(MatrixXcd(6,6));
-    MR.at(5) = fillMatrix("M6R");
-    MR.push_back(MatrixXcd(6,6));
-    MR.at(6) = fillMatrix("M7R");
-    MR.push_back(MatrixXcd(6,6));
-    MR.at(7) = fillMatrix("M8R");
+    //std::vector<MatrixXcd> MR;
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(0) = fillMatrix("M1R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(1) = fillMatrix("M2R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(2) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(3) = fillMatrix("M4R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(4) = fillMatrix("M5R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(5) = fillMatrix("M6R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(6) = fillMatrix("M7R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(7) = fillMatrix("M8R");
 
-    std::vector<MatrixXcd> ML;
-    ML.push_back(MatrixXcd(6,6));
-    ML.at(0) = fillMatrix("M1L");
-    ML.push_back(MatrixXcd(6,6));
-    ML.at(1) = fillMatrix("M2L");
-    ML.push_back(MatrixXcd(6,6));
-    ML.at(2) = fillMatrix("M3L");
-    ML.push_back(MatrixXcd(6,6));
-    ML.at(3) = fillMatrix("M4L");
-    ML.push_back(MatrixXcd(6,6));
-    ML.at(4) = fillMatrix("M5L");
-    ML.push_back(MatrixXcd(6,6));
-    ML.at(5) = fillMatrix("M6L");
-    ML.push_back(MatrixXcd(6,6));
-    ML.at(6) = fillMatrix("M7L");
-    ML.push_back(MatrixXcd(6,6));
-    ML.at(7) = fillMatrix("M8L");
+    //std::vector<MatrixXcd> ML;
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(0) = fillMatrix("M1L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(1) = fillMatrix("M2L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(2) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(3) = fillMatrix("M4L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(4) = fillMatrix("M5L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(5) = fillMatrix("M6L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(6) = fillMatrix("M7L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(7) = fillMatrix("M8L");
 
     //std::vector<MatrixXcd> MR;
     //MR.push_back(MatrixXcd(6,6));
@@ -283,41 +278,41 @@ int main()
     //ML.push_back(MatrixXcd(6,6));
     //ML.at(2) = fillMatrix("M5L");
 
-    //std::vector<MatrixXcd> MR;
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(0) = fillMatrix("M2R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(1) = fillMatrix("M2R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(2) = fillMatrix("M2R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(3) = fillMatrix("M2R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(4) = fillMatrix("M2R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(5) = fillMatrix("M2R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(6) = fillMatrix("M2R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(7) = fillMatrix("M2R");
+    std::vector<MatrixXcd> MR;
+    MR.push_back(MatrixXcd(6,6));
+    MR.at(0) = fillMatrix("M2R");
+    MR.push_back(MatrixXcd(6,6));
+    MR.at(1) = fillMatrix("M2R");
+    MR.push_back(MatrixXcd(6,6));
+    MR.at(2) = fillMatrix("M2R");
+    MR.push_back(MatrixXcd(6,6));
+    MR.at(3) = fillMatrix("M2R");
+    MR.push_back(MatrixXcd(6,6));
+    MR.at(4) = fillMatrix("M2R");
+    MR.push_back(MatrixXcd(6,6));
+    MR.at(5) = fillMatrix("M2R");
+    MR.push_back(MatrixXcd(6,6));
+    MR.at(6) = fillMatrix("M2R");
+    MR.push_back(MatrixXcd(6,6));
+    MR.at(7) = fillMatrix("M2R");
 
-    //std::vector<MatrixXcd> ML;
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(0) = fillMatrix("M2L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(1) = fillMatrix("M2L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(2) = fillMatrix("M2L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(3) = fillMatrix("M2L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(4) = fillMatrix("M2L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(5) = fillMatrix("M2L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(6) = fillMatrix("M2L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(7) = fillMatrix("M2L");
+    std::vector<MatrixXcd> ML;
+    ML.push_back(MatrixXcd(6,6));
+    ML.at(0) = fillMatrix("M2L");
+    ML.push_back(MatrixXcd(6,6));
+    ML.at(1) = fillMatrix("M2L");
+    ML.push_back(MatrixXcd(6,6));
+    ML.at(2) = fillMatrix("M2L");
+    ML.push_back(MatrixXcd(6,6));
+    ML.at(3) = fillMatrix("M2L");
+    ML.push_back(MatrixXcd(6,6));
+    ML.at(4) = fillMatrix("M2L");
+    ML.push_back(MatrixXcd(6,6));
+    ML.at(5) = fillMatrix("M2L");
+    ML.push_back(MatrixXcd(6,6));
+    ML.at(6) = fillMatrix("M2L");
+    ML.push_back(MatrixXcd(6,6));
+    ML.at(7) = fillMatrix("M2L");
 
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
 
@@ -489,12 +484,13 @@ int main()
     MatrixXcd G(48,48);
     MatrixXcd G_reduced(42,42);
     MatrixXcd M_iterative(42,42);
-    MatrixXcd dV(48,1);
-    MatrixXcd dV_reduced(42,42);
+    MatrixXcd dV(42,1);
     MatrixXcd Q_inv_dV(42,1);
     std::vector<VectorXd> dS;
     VectorXd dS_final(42);
-    VectorXd noise(42);
+    VectorXd dS_8panels(48);
+    VectorXd noise_initial(42);
+    VectorXd noise_final(42);
 
     G = MatrixXcd::Zero(48,48);
     for (int i=0;i<N_panels;i++) {
@@ -516,7 +512,6 @@ int main()
     //std::cout << "The eigenvalues of 48x48 Q are:\n" << eigensolver_Q.eigenvalues() << std::endl;
     dV = BuilddVmatrix(Et_final,-1);
     Q_reduced = Q.block(6,6,42,42);
-    dV_reduced = dV.block(6,0,42,1);
     ComplexEigenSolver<MatrixXcd> eigensolver_Q_reduced(Q_reduced);
     std::cout << "The eigenvalues of Q_reduced (after removing the first 6 columns and rows) are:\n" << eigensolver_Q_reduced.eigenvalues() << std::endl;
     for (int i=0;i<42;i++) {
@@ -527,7 +522,7 @@ int main()
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
     std::cout << "Here we compute dS vector using dS = sum e(i)*dV^{T}*e(i)/lambda(i)" << std::endl;
     dS.push_back(VectorXd(42));
-    dS.at(0) = BuilddSmatrix(Q_reduced, dV_reduced, -1, 42);
+    dS.at(0) = BuilddSmatrix(Q_reduced, dV, -1, 42);
 
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
     int n_iteration = 100;
@@ -549,24 +544,35 @@ int main()
     for (int i=0;i<n_iteration;i++) {
         dS_final += dS.at(i);
     }
-    noise = BuildNoiseVector(dS_final, Et_final, 42); 
-    for (int i=0;i<N_panels-1;i++) {
-        std::cout << "dS_initial(" << i+2 << "):" << std::endl;
-        std::cout << dS.at(0).segment(i*6,6).transpose() << std::endl;
-        std::cout << "dS_final(" << i+2 << "):" << std::endl;
-        std::cout << dS_final.segment(i*6,6).transpose() << std::endl;
-        std::cout << "Noise = Et_adp*dS_final(i) + dS_final(i+1) + dSigma(i) (i=" << i+2 << "):" << std::endl;
-        std::cout << noise.segment(i*6,6).transpose() << std::endl;
-        std::cout << "dL(" << i+2 << ") = ML(i).inverse()*dS_final(i):" << std::endl;
-        std::cout << ML.at(i+1).inverse()*dS_final.segment(i*6,6) << std::endl;
+    dS_8panels = VectorXd::Zero(48);
+    dS_8panels.segment(6,42) = dS.at(0);
+    noise_initial = BuildNoiseVector(dS_8panels, Em); 
+    for (int i=0;i<N_panels;i++) {
+        std::cout << "dS_initial(" << i << "):" << std::endl;
+        std::cout << dS_8panels.segment(i*6,6).transpose() << std::endl;
+        std::cout << "Noise_initial = Em(i)*dS_initial(i) + dS_initial(i+1) + dSigma(i) (i=" << i << "):" << std::endl;
+        std::cout << noise_initial.segment(i*6,6).transpose() << std::endl;
+        std::cout << "dL(" << i << ") = ML(i).inverse()*dS(i):" << std::endl;
+        std::cout << ML.at(i).inverse()*dS_8panels.segment(i*6,6) << std::endl;
     }
 
-    //std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
-    //std::cout << "Here we compute dS vector using dS = -Q^{-1}*dV, dimention = 42" << std::endl;
-    //Q_inv_dV = Q_reduced.inverse()*dV_reduced;
-    //for (int i=0;i<N_panels-1;i++) {
-    //    std::cout << "Q_reduced^{-1}*dV_reduced  = -dS(" << i+2 << "):" << std::endl;
-    //    std::cout << Q_inv_dV.block(i*6,0,6,1) << std::endl;
-    //}
+    std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
+    std::cout << "Here we compute dS vector using dS = -Q^{-1}*dV, dimention = 42" << std::endl;
+    Q_inv_dV = Q_reduced.inverse()*dV;
+    for (int i=0;i<N_panels-1;i++) {
+        std::cout << "Q_reduced^{-1}*dV  = -dS(" << i+1 << "):" << std::endl;
+        std::cout << Q_inv_dV.block(i*6,0,6,1) << std::endl;
+    }
+
+    std::ofstream myfile;
+    myfile.open ("Q_eigenvector.txt");
+    for (int i=0;i<42;i++) {
+        for (int j=0;j<42;j++) {
+            myfile << eigensolver_Q_reduced.eigenvectors().col(i)(j).real() << "\n";
+        }
+    }
+    myfile.close();
+
+
 
 }
