@@ -163,6 +163,8 @@ VectorXd BuilddSmatrix(MatrixXcd Q, MatrixXcd dV, int panel, int dim)
     e_vectors = eigensolver.eigenvectors().real();
     dV_real = dV.real();
     for (int i=0;i<dim;i++) {
+        if (i==0) continue;
+        if (i==1) continue;
         double projection = -1.*dV_real.transpose().dot(e_vectors.col(i));
         //if (abs(projection/lambda(i))>200.) projection = 0.;
         //if (i<4) projection = 0.;
@@ -514,10 +516,10 @@ int main()
     Q_reduced = Q.block(6,6,42,42);
     ComplexEigenSolver<MatrixXcd> eigensolver_Q_reduced(Q_reduced);
     std::cout << "The eigenvalues of Q_reduced (after removing the first 6 columns and rows) are:\n" << eigensolver_Q_reduced.eigenvalues() << std::endl;
-    for (int i=0;i<42;i++) {
-        std::cout << "Eigenvector of Q_reduced, eigenvalue = " << eigensolver_Q_reduced.eigenvalues()(i) << std::endl;
-        std::cout << eigensolver_Q_reduced.eigenvectors().col(i) << std::endl;
-    }
+    //for (int i=0;i<42;i++) {
+    //    std::cout << "Eigenvector of Q_reduced, eigenvalue = " << eigensolver_Q_reduced.eigenvalues()(i) << std::endl;
+    //    std::cout << eigensolver_Q_reduced.eigenvectors().col(i) << std::endl;
+    //}
 
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
     std::cout << "Here we compute dS vector using dS = sum e(i)*dV^{T}*e(i)/lambda(i)" << std::endl;
@@ -546,6 +548,7 @@ int main()
     }
     dS_8panels = VectorXd::Zero(48);
     dS_8panels.segment(6,42) = dS.at(0);
+    //dS_8panels.segment(6,42) = dS_final;
     noise_initial = BuildNoiseVector(dS_8panels, Em); 
     for (int i=0;i<N_panels;i++) {
         std::cout << "dS_initial(" << i << "):" << std::endl;
@@ -569,6 +572,7 @@ int main()
     for (int i=0;i<42;i++) {
         for (int j=0;j<42;j++) {
             myfile << eigensolver_Q_reduced.eigenvectors().col(i)(j).real() << "\n";
+            //myfile << eigensolver_M_iterative.eigenvectors().col(i)(j).real() << "\n";
         }
     }
     myfile.close();
