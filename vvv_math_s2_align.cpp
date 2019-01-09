@@ -115,6 +115,60 @@ VectorXd BigDeltaVector()
     //Delta(5) = 442.441;
     return Delta;
 }
+VectorXd DeltaSigmaVector() 
+{
+    VectorXd DeltaSigma(48);
+    DeltaSigma(0)  =   2.22308;
+    DeltaSigma(1)  =  0.383084;
+    DeltaSigma(2)  = -0.501165;
+    DeltaSigma(3)  =   1.02764;
+    DeltaSigma(4)  =  0.390244;
+    DeltaSigma(5)  =  -4.64975;
+    DeltaSigma(6)  =  0.275801;
+    DeltaSigma(7)  =   10.3989;
+    DeltaSigma(8)  =  -3.80159;
+    DeltaSigma(9)  =   8.27924;
+    DeltaSigma(10) =   1.46952;
+    DeltaSigma(11) =  -7.62038;
+    DeltaSigma(12) =  -2.84122;
+    DeltaSigma(13) =   9.35395;
+    DeltaSigma(14) = -0.359173;
+    DeltaSigma(15) =   3.86903;
+    DeltaSigma(16) =  -3.32244;
+    DeltaSigma(17) =  -5.44716;
+    DeltaSigma(18) =   3.08892;
+    DeltaSigma(19) =  -4.73686;
+    DeltaSigma(20) = -0.457365;
+    DeltaSigma(21) =   3.54856;
+    DeltaSigma(22) =  -3.61201;
+    DeltaSigma(23) =   5.31459;
+    DeltaSigma(24) =   4.63734;
+    DeltaSigma(25) =  -12.2238;
+    DeltaSigma(26) =   5.22802;
+    DeltaSigma(27) =  -6.40906;
+    DeltaSigma(28) =     7.141;
+    DeltaSigma(29) =  -3.99606;
+    DeltaSigma(30) =   7.16758;
+    DeltaSigma(31) =   3.56684;
+    DeltaSigma(32) =   10.9275;
+    DeltaSigma(33) =    8.7883;
+    DeltaSigma(34) =   26.1361;
+    DeltaSigma(35) =  -33.4946;
+    DeltaSigma(36) =  -10.6336;
+    DeltaSigma(37) =   46.4568;
+    DeltaSigma(38) =   41.8835;
+    DeltaSigma(39) =   75.3998;
+    DeltaSigma(40) =   17.6161;
+    DeltaSigma(41) =  -104.142;
+    DeltaSigma(42) =  -2.56872;
+    DeltaSigma(43) =   20.0496;
+    DeltaSigma(44) =  -47.6552;
+    DeltaSigma(45) =  -1.24372;
+    DeltaSigma(46) =  -39.7564;
+    DeltaSigma(47) =   43.2116;
+           
+    return DeltaSigma;
+}          
 VectorXd BuildNoiseVector(VectorXd dS, std::vector<MatrixXcd> Et) 
 {
     int n_panels = 8;
@@ -122,7 +176,8 @@ VectorXd BuildNoiseVector(VectorXd dS, std::vector<MatrixXcd> Et)
     noise = VectorXd::Zero(48);
     VectorXd dSigma(48);
     dSigma = VectorXd::Zero(48);
-    dSigma.segment(42,6) = BigDeltaVector();
+    //dSigma.segment(42,6) = BigDeltaVector();
+    dSigma = DeltaSigmaVector();
     for (int i=0;i<n_panels;i++) {
         if (i<n_panels-1) {
             noise.segment(i*6,6) = Et.at(i).real()*dS.segment(i*6,6)+dS.segment((i+1)*6,6)+dSigma.segment(i*6,6);
@@ -178,7 +233,8 @@ MatrixXcd BuilddVmatrix(std::vector<MatrixXcd> E, int panel)
     MatrixXcd W(48,48);
     MatrixXcd W_reduced(42,48);
     MatrixXcd dV(42,1);
-    MatrixXcd dSigma(48,1);
+    //MatrixXcd dSigma(48,1);
+    VectorXd dSigma(48);
     MatrixXcd I(6,6);
     I << 1.0, 0., 0., 0., 0., 0.,
          0., 1.0, 0., 0., 0., 0.,
@@ -200,8 +256,10 @@ MatrixXcd BuilddVmatrix(std::vector<MatrixXcd> E, int panel)
         }
     }
     W_reduced = W.block(6,0,42,48);
-    dSigma = MatrixXcd::Zero(48,1);
-    dSigma.block(42,0,6,1) = BigDeltaVector();
+    //dSigma = MatrixXcd::Zero(48,1);
+    //dSigma.block(42,0,6,1) = BigDeltaVector();
+    dSigma = VectorXd::Zero(48);
+    dSigma = DeltaSigmaVector();
     std::cout << "Done calculating W and dSigma matrix." << std::endl;
     dV = W_reduced*dSigma;
     std::cout << "Done calculating dV matrix." << std::endl;
@@ -555,8 +613,12 @@ int main()
         std::cout << dS_8panels.segment(i*6,6).transpose() << std::endl;
         std::cout << "Noise_initial = Em(i)*dS_initial(i) + dS_initial(i+1) + dSigma(i) (i=" << i << "):" << std::endl;
         std::cout << noise_initial.segment(i*6,6).transpose() << std::endl;
-        std::cout << "dL(" << i << ") = ML(i).inverse()*dS(i):" << std::endl;
+        std::cout << "dL(" << i << ") = ML(i).inverse()*dS(i) (total):" << std::endl;
         std::cout << ML.at(i).inverse()*dS_8panels.segment(i*6,6) << std::endl;
+        if (i!=0) {
+        std::cout << "dL(" << i << ") = ML(i).inverse()*dS(i) (each step):" << std::endl;
+        std::cout << 1./(double(i))*ML.at(i).inverse()*dS_8panels.segment(i*6,6) << std::endl;
+        }
     }
 
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
