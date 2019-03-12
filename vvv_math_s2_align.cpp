@@ -4,6 +4,8 @@
 #include <complex>
 #include "string"
 #include "fstream"
+//#include "/Users/rshang/pSCT/Eigen/eigen-eigen-323c052e1731/Eigen/Dense"
+//#include "/Users/rshang/pSCT/Eigen/eigen-eigen-323c052e1731/Eigen/StdVector"
 #include "/home/rshang/Eigen/eigen-eigen-323c052e1731/Eigen/Dense"
 #include "/home/rshang/Eigen/eigen-eigen-323c052e1731/Eigen/StdVector"
 using namespace Eigen;
@@ -408,20 +410,23 @@ MatrixXcd BuilddVmatrix(std::vector<MatrixXcd> E, int panel)
     std::cout << "Done calculating dV matrix." << std::endl;
     return dV;
 }
-MatrixXcd BuildUmatrix(MatrixXcd H1, MatrixXcd H2, MatrixXcd H3)
+MatrixXcd BuildUmatrix(MatrixXcd H1a, MatrixXcd H1b, MatrixXcd H2a, MatrixXcd H2b, MatrixXcd H3a, MatrixXcd H3b)
 {
     MatrixXcd U(6,6);
 
-    ComplexEigenSolver<MatrixXcd> eigensolver1(H1);
-    ComplexEigenSolver<MatrixXcd> eigensolver2(H2);
-    ComplexEigenSolver<MatrixXcd> eigensolver3(H3);
+    ComplexEigenSolver<MatrixXcd> eigensolver1a(H1a);
+    ComplexEigenSolver<MatrixXcd> eigensolver2a(H2a);
+    ComplexEigenSolver<MatrixXcd> eigensolver3a(H3a);
+    ComplexEigenSolver<MatrixXcd> eigensolver1b(H1b);
+    ComplexEigenSolver<MatrixXcd> eigensolver2b(H2b);
+    ComplexEigenSolver<MatrixXcd> eigensolver3b(H3b);
     
-    U.col(0) = eigensolver1.eigenvectors().col(0);
-    U.col(1) = eigensolver1.eigenvectors().col(1);
-    U.col(2) = eigensolver2.eigenvectors().col(0);
-    U.col(3) = eigensolver3.eigenvectors().col(0);
-    U.col(4) = eigensolver2.eigenvectors().col(1);
-    U.col(5) = eigensolver3.eigenvectors().col(1);
+    U.col(0) = eigensolver1a.eigenvectors().col(0);
+    U.col(1) = eigensolver1b.eigenvectors().col(1);
+    U.col(2) = eigensolver2a.eigenvectors().col(0);
+    U.col(3) = eigensolver2b.eigenvectors().col(0);
+    U.col(4) = eigensolver3a.eigenvectors().col(1);
+    U.col(5) = eigensolver3b.eigenvectors().col(1);
 
     return U;
 }
@@ -429,141 +434,141 @@ int main()
 {
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
 
-    //std::vector<MatrixXcd> MR;
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(0) = fillMatrix("M0R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(1) = fillMatrix("M1R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(2) = fillMatrix("M2R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(3) = fillMatrix("M3R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(4) = fillMatrix("M4R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(5) = fillMatrix("M5R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(6) = fillMatrix("M6R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(7) = fillMatrix("M7R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(8) = fillMatrix("M8R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(9) = fillMatrix("M9R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(10) = fillMatrix("M10R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(11) = fillMatrix("M11R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(12) = fillMatrix("M12R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(13) = fillMatrix("M13R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(14) = fillMatrix("M14R");
-    //MR.push_back(MatrixXcd(6,6));
-    //MR.at(15) = fillMatrix("M15R");
-
-    //std::vector<MatrixXcd> ML;
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(0) = fillMatrix("M0L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(1) = fillMatrix("M1L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(2) = fillMatrix("M2L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(3) = fillMatrix("M3L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(4) = fillMatrix("M4L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(5) = fillMatrix("M5L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(6) = fillMatrix("M6L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(7) = fillMatrix("M7L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(8) = fillMatrix("M8L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(9) = fillMatrix("M9L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(10) = fillMatrix("M10L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(11) = fillMatrix("M11L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(12) = fillMatrix("M12L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(13) = fillMatrix("M13L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(14) = fillMatrix("M14L");
-    //ML.push_back(MatrixXcd(6,6));
-    //ML.at(15) = fillMatrix("M15L");
-
     std::vector<MatrixXcd> MR;
     MR.push_back(MatrixXcd(6,6));
-    MR.at(0) = fillMatrix("M3R");
+    MR.at(0) = fillMatrix("M0R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(1) = fillMatrix("M3R");
+    MR.at(1) = fillMatrix("M1R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(2) = fillMatrix("M3R");
+    MR.at(2) = fillMatrix("M2R");
     MR.push_back(MatrixXcd(6,6));
     MR.at(3) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(4) = fillMatrix("M3R");
+    MR.at(4) = fillMatrix("M4R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(5) = fillMatrix("M3R");
+    MR.at(5) = fillMatrix("M5R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(6) = fillMatrix("M3R");
+    MR.at(6) = fillMatrix("M6R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(7) = fillMatrix("M3R");
+    MR.at(7) = fillMatrix("M7R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(8) = fillMatrix("M3R");
+    MR.at(8) = fillMatrix("M8R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(9) = fillMatrix("M3R");
+    MR.at(9) = fillMatrix("M9R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(10) = fillMatrix("M3R");
+    MR.at(10) = fillMatrix("M10R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(11) = fillMatrix("M3R");
+    MR.at(11) = fillMatrix("M11R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(12) = fillMatrix("M3R");
+    MR.at(12) = fillMatrix("M12R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(13) = fillMatrix("M3R");
+    MR.at(13) = fillMatrix("M13R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(14) = fillMatrix("M3R");
+    MR.at(14) = fillMatrix("M14R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(15) = fillMatrix("M3R");
+    MR.at(15) = fillMatrix("M15R");
 
     std::vector<MatrixXcd> ML;
     ML.push_back(MatrixXcd(6,6));
-    ML.at(0) = fillMatrix("M3L");
+    ML.at(0) = fillMatrix("M0L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(1) = fillMatrix("M3L");
+    ML.at(1) = fillMatrix("M1L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(2) = fillMatrix("M3L");
+    ML.at(2) = fillMatrix("M2L");
     ML.push_back(MatrixXcd(6,6));
     ML.at(3) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(4) = fillMatrix("M3L");
+    ML.at(4) = fillMatrix("M4L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(5) = fillMatrix("M3L");
+    ML.at(5) = fillMatrix("M5L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(6) = fillMatrix("M3L");
+    ML.at(6) = fillMatrix("M6L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(7) = fillMatrix("M3L");
+    ML.at(7) = fillMatrix("M7L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(8) = fillMatrix("M3L");
+    ML.at(8) = fillMatrix("M8L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(9) = fillMatrix("M3L");
+    ML.at(9) = fillMatrix("M9L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(10) = fillMatrix("M3L");
+    ML.at(10) = fillMatrix("M10L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(11) = fillMatrix("M3L");
+    ML.at(11) = fillMatrix("M11L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(12) = fillMatrix("M3L");
+    ML.at(12) = fillMatrix("M12L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(13) = fillMatrix("M3L");
+    ML.at(13) = fillMatrix("M13L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(14) = fillMatrix("M3L");
+    ML.at(14) = fillMatrix("M14L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(15) = fillMatrix("M3L");
+    ML.at(15) = fillMatrix("M15L");
+
+    //std::vector<MatrixXcd> MR;
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(0) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(1) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(2) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(3) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(4) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(5) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(6) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(7) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(8) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(9) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(10) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(11) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(12) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(13) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(14) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(15) = fillMatrix("M3R");
+
+    //std::vector<MatrixXcd> ML;
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(0) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(1) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(2) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(3) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(4) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(5) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(6) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(7) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(8) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(9) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(10) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(11) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(12) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(13) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(14) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(15) = fillMatrix("M3L");
 
 
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
@@ -589,9 +594,9 @@ int main()
 
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
 
-    //double Phase_Choice = 5.*M_PI/8.;
-    //double Phase_Choice = 6.*M_PI/8.;
-    double Phase_Choice = 7.*M_PI/8.;
+    double Phase_Choice_0 = M_PI;
+    double Phase_Choice_1 = 6.*M_PI/8.;
+    double Phase_Choice_2 = 7.*M_PI/8.;
 
     //std::cout << "Here we compute H_avg = 1/8 * sum (H(i))" << std::endl;
     //MatrixXcd Havg1(6,6);
@@ -607,28 +612,40 @@ int main()
     //ComplexEigenSolver<MatrixXcd> eigensolver3(Havg3);
     //std::cout << "The eigenvalues of avg H(-3pi/4) are:\n" << eigensolver3.eigenvalues() << std::endl;
 
-    std::vector<MatrixXcd> H1;
-    std::vector<MatrixXcd> H2;
-    std::vector<MatrixXcd> H3;
+    std::vector<MatrixXcd> H1a;
+    std::vector<MatrixXcd> H2a;
+    std::vector<MatrixXcd> H3a;
+    std::vector<MatrixXcd> H1b;
+    std::vector<MatrixXcd> H2b;
+    std::vector<MatrixXcd> H3b;
     for (int i=0;i<N_panels;i++) {
-        H1.push_back(MatrixXcd(6,6));
-        H2.push_back(MatrixXcd(6,6));
-        H3.push_back(MatrixXcd(6,6));
-        H1.at(i) = Hermitian(M_PI, Em.at(i));
-        H2.at(i) = Hermitian(Phase_Choice, Em.at(i));
-        H3.at(i) = Hermitian(-Phase_Choice, Em.at(i));
+        H1a.push_back(MatrixXcd(6,6));
+        H2a.push_back(MatrixXcd(6,6));
+        H3a.push_back(MatrixXcd(6,6));
+        H1b.push_back(MatrixXcd(6,6));
+        H2b.push_back(MatrixXcd(6,6));
+        H3b.push_back(MatrixXcd(6,6));
+        H1a.at(i) = Hermitian(Phase_Choice_0, Em.at(i));
+        H2a.at(i) = Hermitian(Phase_Choice_1, Em.at(i));
+        H3a.at(i) = Hermitian(Phase_Choice_2, Em.at(i));
+        H1b.at(i) = Hermitian(-Phase_Choice_0, Em.at(i));
+        H2b.at(i) = Hermitian(-Phase_Choice_1, Em.at(i));
+        H3b.at(i) = Hermitian(-Phase_Choice_2, Em.at(i));
         //std::cout << "Eigenvalues of panel " << i << " H matrix:" << std::endl;
         //std::cout << "Panel " << i << " H(pi) matrix:" << std::endl;
         //std::cout << H1.at(i) << std::endl;
-        ComplexEigenSolver<MatrixXcd> eigensolver_1(H1.at(i));
+        ComplexEigenSolver<MatrixXcd> eigensolver_1a(H1a.at(i));
+        ComplexEigenSolver<MatrixXcd> eigensolver_1b(H1b.at(i));
         //std::cout << "The eigenvalues of H(pi) are:\n" << eigensolver_1.eigenvalues() << std::endl;
         //std::cout << "Panel " << i << " H(3pi/4) matrix:" << std::endl;
         //std::cout << H2.at(i) << std::endl;
-        ComplexEigenSolver<MatrixXcd> eigensolver_2(H2.at(i));
+        ComplexEigenSolver<MatrixXcd> eigensolver_2a(H2a.at(i));
+        ComplexEigenSolver<MatrixXcd> eigensolver_2b(H2b.at(i));
         //std::cout << "The eigenvalues of H(3pi/4) are:\n" << eigensolver_2.eigenvalues() << std::endl;
         //std::cout << "Panel " << i << " H(-3pi/4) matrix:" << std::endl;
         //std::cout << H3.at(i) << std::endl;
-        ComplexEigenSolver<MatrixXcd> eigensolver_3(H3.at(i));
+        ComplexEigenSolver<MatrixXcd> eigensolver_3a(H3a.at(i));
+        ComplexEigenSolver<MatrixXcd> eigensolver_3b(H3b.at(i));
         //std::cout << "The eigenvalues of H(-3pi/4) are:\n" << eigensolver_3.eigenvalues() << std::endl;
     }
 
@@ -643,7 +660,7 @@ int main()
     std::vector<MatrixXcd> U;
     for (int i=0;i<N_panels;i++) {
         U.push_back(MatrixXcd(6,6));
-        U.at(i) = BuildUmatrix(H1.at(i), H2.at(i), H3.at(i));
+        U.at(i) = BuildUmatrix(H1a.at(i),H1b.at(i),H2a.at(i),H2b.at(i),H3a.at(i),H3b.at(i));
         //std::cout << "U(" << i << "):" << std::endl;
         //std::cout << U.at(i) << std::endl;
     }
@@ -652,12 +669,12 @@ int main()
 
     const std::complex<double> If(0.0, 1.0);
     MatrixXcd D(6,6);
-    D << -1.0 + 0.0 * If, 0., 0., 0., 0., 0.,
-         0., -1.0 + 0.0 * If, 0., 0., 0., 0.,
-         0., 0., cos(Phase_Choice) + sin(Phase_Choice) * If, 0., 0., 0.,
-         0., 0., 0., cos(-Phase_Choice) + sin(-Phase_Choice) * If, 0., 0.,
-         0., 0., 0., 0., cos(Phase_Choice) + sin(Phase_Choice) * If, 0.,
-         0., 0., 0., 0., 0., cos(-Phase_Choice) + sin(-Phase_Choice) * If;
+    D << cos(Phase_Choice_0) + sin(Phase_Choice_0) * If, 0., 0., 0., 0., 0.,
+         0., cos(-Phase_Choice_0) + sin(-Phase_Choice_0) * If, 0., 0., 0., 0.,
+         0., 0., cos(Phase_Choice_1) + sin(Phase_Choice_1) * If, 0., 0., 0.,
+         0., 0., 0., cos(-Phase_Choice_1) + sin(-Phase_Choice_1) * If, 0., 0.,
+         0., 0., 0., 0., cos(Phase_Choice_2) + sin(Phase_Choice_2) * If, 0.,
+         0., 0., 0., 0., 0., cos(-Phase_Choice_2) + sin(-Phase_Choice_2) * If;
     //std::cout << "The D matrix is:" << std::endl;
     //std::cout << D << std::endl;
 
@@ -697,6 +714,8 @@ int main()
         {
             std::cout << pow(Et_eigenvalue_real(j)*Et_eigenvalue_real(j)+Et_eigenvalue_imag(j)*Et_eigenvalue_imag(j),0.5) << ", " << atan2(Et_eigenvalue_imag(j), Et_eigenvalue_real(j))/M_PI << "pi" << std::endl;
         }
+        std::cout << "Et("<< i << ")*Em(" << i << ")^{-1}:" << std::endl;
+        std::cout << (Et.at(i)*Em.at(i).inverse()) << std::endl;
     }
     std::cout << "Here we compute Et_avg = sum 1/8*Et(i):" << std::endl;
     std::cout << "Et_avg:" << std::endl;
@@ -706,15 +725,21 @@ int main()
 
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
     std::cout << "Here we compute H_avg from Et_avg" << std::endl;
-    MatrixXcd H1_avg;
-    MatrixXcd H2_avg;
-    MatrixXcd H3_avg;
-    H1_avg = Hermitian(M_PI, Et_avg);
-    H2_avg = Hermitian(Phase_Choice, Et_avg);
-    H3_avg = Hermitian(-Phase_Choice, Et_avg);
+    MatrixXcd H1a_avg;
+    MatrixXcd H2a_avg;
+    MatrixXcd H3a_avg;
+    MatrixXcd H1b_avg;
+    MatrixXcd H2b_avg;
+    MatrixXcd H3b_avg;
+    H1a_avg = Hermitian(Phase_Choice_0, Et_avg);
+    H2a_avg = Hermitian(Phase_Choice_1, Et_avg);
+    H3a_avg = Hermitian(Phase_Choice_2, Et_avg);
+    H1b_avg = Hermitian(-Phase_Choice_0, Et_avg);
+    H2b_avg = Hermitian(-Phase_Choice_1, Et_avg);
+    H3b_avg = Hermitian(-Phase_Choice_2, Et_avg);
     std::cout << "Here we compute U_avg from H_avg." << std::endl;
     MatrixXcd U_avg;
-    U_avg = BuildUmatrix(H1_avg, H2_avg, H3_avg);
+    U_avg = BuildUmatrix(H1a_avg,H1b_avg,H2a_avg,H2b_avg,H3a_avg,H3b_avg);
 
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
     std::cout << "Here we compute Et_adp = U_avg*D*U_avg^{-1}. And we show that Et_adp*Em(i)^{-1} is close to unity." << std::endl;
@@ -722,10 +747,10 @@ int main()
     Et_adp = U_avg*D*U_avg.inverse();
     //std::cout << "Et_adp:" << std::endl;
     //std::cout << Et_adp << std::endl;
-    //for (int i=0;i<N_panels;i++) {
-    //    std::cout << "Et_adp*Em(" << i << ")^{-1}:" << std::endl;
-    //    std::cout << Et_adp*Em.at(i).inverse() << std::endl;
-    //}
+    for (int i=0;i<N_panels;i++) {
+        std::cout << "Et_adp*Em(" << i << ")^{-1}:" << std::endl;
+        std::cout << (Et_adp*Em.at(i).inverse()) << std::endl;
+    }
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
     //std::cout << "Here we compute Et_final = Et_adp + Et(i)-Et_avg" << std::endl;
     std::cout << "Here we compute Et_final = Et_adp" << std::endl;
