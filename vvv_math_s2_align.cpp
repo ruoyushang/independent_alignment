@@ -429,89 +429,170 @@ int main()
 {
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
 
+    //std::vector<MatrixXcd> MR;
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(0) = fillMatrix("M0R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(1) = fillMatrix("M1R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(2) = fillMatrix("M2R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(3) = fillMatrix("M3R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(4) = fillMatrix("M4R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(5) = fillMatrix("M5R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(6) = fillMatrix("M6R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(7) = fillMatrix("M7R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(8) = fillMatrix("M8R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(9) = fillMatrix("M9R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(10) = fillMatrix("M10R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(11) = fillMatrix("M11R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(12) = fillMatrix("M12R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(13) = fillMatrix("M13R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(14) = fillMatrix("M14R");
+    //MR.push_back(MatrixXcd(6,6));
+    //MR.at(15) = fillMatrix("M15R");
+
+    //std::vector<MatrixXcd> ML;
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(0) = fillMatrix("M0L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(1) = fillMatrix("M1L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(2) = fillMatrix("M2L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(3) = fillMatrix("M3L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(4) = fillMatrix("M4L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(5) = fillMatrix("M5L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(6) = fillMatrix("M6L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(7) = fillMatrix("M7L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(8) = fillMatrix("M8L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(9) = fillMatrix("M9L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(10) = fillMatrix("M10L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(11) = fillMatrix("M11L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(12) = fillMatrix("M12L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(13) = fillMatrix("M13L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(14) = fillMatrix("M14L");
+    //ML.push_back(MatrixXcd(6,6));
+    //ML.at(15) = fillMatrix("M15L");
+
     std::vector<MatrixXcd> MR;
     MR.push_back(MatrixXcd(6,6));
-    MR.at(0) = fillMatrix("M0R");
+    MR.at(0) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(1) = fillMatrix("M1R");
+    MR.at(1) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(2) = fillMatrix("M2R");
+    MR.at(2) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
     MR.at(3) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(4) = fillMatrix("M4R");
+    MR.at(4) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(5) = fillMatrix("M5R");
+    MR.at(5) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(6) = fillMatrix("M6R");
+    MR.at(6) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(7) = fillMatrix("M7R");
+    MR.at(7) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(8) = fillMatrix("M8R");
+    MR.at(8) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(9) = fillMatrix("M9R");
+    MR.at(9) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(10) = fillMatrix("M10R");
+    MR.at(10) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(11) = fillMatrix("M11R");
+    MR.at(11) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(12) = fillMatrix("M12R");
+    MR.at(12) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(13) = fillMatrix("M13R");
+    MR.at(13) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(14) = fillMatrix("M14R");
+    MR.at(14) = fillMatrix("M3R");
     MR.push_back(MatrixXcd(6,6));
-    MR.at(15) = fillMatrix("M15R");
+    MR.at(15) = fillMatrix("M3R");
 
     std::vector<MatrixXcd> ML;
     ML.push_back(MatrixXcd(6,6));
-    ML.at(0) = fillMatrix("M0L");
+    ML.at(0) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(1) = fillMatrix("M1L");
+    ML.at(1) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(2) = fillMatrix("M2L");
+    ML.at(2) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
     ML.at(3) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(4) = fillMatrix("M4L");
+    ML.at(4) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(5) = fillMatrix("M5L");
+    ML.at(5) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(6) = fillMatrix("M6L");
+    ML.at(6) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(7) = fillMatrix("M7L");
+    ML.at(7) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(8) = fillMatrix("M8L");
+    ML.at(8) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(9) = fillMatrix("M9L");
+    ML.at(9) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(10) = fillMatrix("M10L");
+    ML.at(10) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(11) = fillMatrix("M11L");
+    ML.at(11) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(12) = fillMatrix("M12L");
+    ML.at(12) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(13) = fillMatrix("M13L");
+    ML.at(13) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(14) = fillMatrix("M14L");
+    ML.at(14) = fillMatrix("M3L");
     ML.push_back(MatrixXcd(6,6));
-    ML.at(15) = fillMatrix("M15L");
+    ML.at(15) = fillMatrix("M3L");
 
 
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
 
     std::cout << "Here we compute Em(i) = MR(i)*ML(i)^{-1}" << std::endl;
     std::vector<MatrixXcd> Em;
+    VectorXd Em_eigenvalue_real(6);
+    VectorXd Em_eigenvalue_imag(6);
     for (int i=0;i<N_panels;i++) {
         Em.push_back(MatrixXcd(6,6));
         Em.at(i) = MR.at(i)*ML.at(i).inverse();
         //std::cout << "Em(" << i << "):" << std::endl;
         //std::cout << Em.at(i) << std::endl;
+        ComplexEigenSolver<MatrixXcd> eigensolver_Em(Em.at(i));
+        Em_eigenvalue_real = eigensolver_Em.eigenvalues().real();
+        Em_eigenvalue_imag = eigensolver_Em.eigenvalues().imag();
+        std::cout << "The eigenvalues of Em("<<i<<") are:" << std::endl;
+        for (int j=0;j<6;j++)
+        {
+            std::cout << pow(Em_eigenvalue_real(j)*Em_eigenvalue_real(j)+Em_eigenvalue_imag(j)*Em_eigenvalue_imag(j),0.5) << ", " << atan2(Em_eigenvalue_imag(j), Em_eigenvalue_real(j))/M_PI << "pi" << std::endl;
+        }
     }
 
     std::cout << "--------------------------------------------------------------------------------------------------------------------" << std::endl;
 
+    //double Phase_Choice = 5.*M_PI/8.;
+    //double Phase_Choice = 6.*M_PI/8.;
     double Phase_Choice = 7.*M_PI/8.;
+
     //std::cout << "Here we compute H_avg = 1/8 * sum (H(i))" << std::endl;
     //MatrixXcd Havg1(6,6);
     //MatrixXcd Havg2(6,6);
@@ -605,6 +686,18 @@ int main()
         std::cout << Et.at(i) << std::endl;
         Et_avg += 1./double(N_panels)*Et.at(i);
     }
+    VectorXd Et_eigenvalue_real(6);
+    VectorXd Et_eigenvalue_imag(6);
+    for (int i=0;i<N_panels;i++) {
+        ComplexEigenSolver<MatrixXcd> eigensolver_Et(Et.at(i));
+        Et_eigenvalue_real = eigensolver_Et.eigenvalues().real();
+        Et_eigenvalue_imag = eigensolver_Et.eigenvalues().imag();
+        std::cout << "The eigenvalues of Et("<<i<<") are:" << std::endl;
+        for (int j=0;j<6;j++)
+        {
+            std::cout << pow(Et_eigenvalue_real(j)*Et_eigenvalue_real(j)+Et_eigenvalue_imag(j)*Et_eigenvalue_imag(j),0.5) << ", " << atan2(Et_eigenvalue_imag(j), Et_eigenvalue_real(j))/M_PI << "pi" << std::endl;
+        }
+    }
     std::cout << "Here we compute Et_avg = sum 1/8*Et(i):" << std::endl;
     std::cout << "Et_avg:" << std::endl;
     std::cout << Et_avg << std::endl;
@@ -647,8 +740,22 @@ int main()
         //std::cout << Et_final.at(i) << std::endl;
         //std::cout << "Et_final("<< i << ")*Em(" << i << ")^{-1}:" << std::endl;
         //std::cout << Et_final.at(i)*Em.at(i).inverse() << std::endl;
+        //ComplexEigenSolver<MatrixXcd> eigensolver_Et_final(Et_final.at(i));
+        //std::cout << "The eigenvalues of Et_final(i) = Et_adp are:\n" << eigensolver_Et_final.eigenvalues() << std::endl;
         //ComplexEigenSolver<MatrixXcd> eigensolver_EG(EG.at(i));
         //std::cout << "The eigenvalues of EG(i) = Em(i)-Et_adp are:\n" << eigensolver_EG.eigenvalues() << std::endl;
+    }
+    VectorXd Et_final_eigenvalue_real(6);
+    VectorXd Et_final_eigenvalue_imag(6);
+    for (int i=0;i<N_panels;i++) {
+        ComplexEigenSolver<MatrixXcd> eigensolver_Et_final(Et_final.at(i));
+        Et_final_eigenvalue_real = eigensolver_Et_final.eigenvalues().real();
+        Et_final_eigenvalue_imag = eigensolver_Et_final.eigenvalues().imag();
+        std::cout << "The eigenvalues of Et_final("<<i<<") are:" << std::endl;
+        for (int j=0;j<6;j++)
+        {
+            std::cout << pow(Et_final_eigenvalue_real(j)*Et_final_eigenvalue_real(j)+Et_final_eigenvalue_imag(j)*Et_final_eigenvalue_imag(j),0.5) << ", " << atan2(Et_final_eigenvalue_imag(j), Et_final_eigenvalue_real(j))/M_PI << "pi" << std::endl;
+        }
     }
 
 

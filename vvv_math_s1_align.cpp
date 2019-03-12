@@ -668,6 +668,18 @@ int main()
         std::cout << Et.at(i) << std::endl;
         Et_avg += 1./double(N_panels)*Et.at(i);
     }
+    VectorXd Et_eigenvalue_real(6);
+    VectorXd Et_eigenvalue_imag(6);
+    for (int i=0;i<N_panels;i++) {
+        ComplexEigenSolver<MatrixXcd> eigensolver_Et(Et.at(i));
+        Et_eigenvalue_real = eigensolver_Et.eigenvalues().real();
+        Et_eigenvalue_imag = eigensolver_Et.eigenvalues().imag();
+        std::cout << "The eigenvalues of Et("<<i<<") are:" << std::endl;
+        for (int j=0;j<6;j++)
+        {
+            std::cout << pow(Et_eigenvalue_real(j)*Et_eigenvalue_real(j)+Et_eigenvalue_imag(j)*Et_eigenvalue_imag(j),0.5) << ", " << atan2(Et_eigenvalue_imag(j), Et_eigenvalue_real(j))/M_PI << "pi" << std::endl;
+        }
+    }
     std::cout << "Here we compute Et_avg = sum 1/8*Et(i):" << std::endl;
     std::cout << "Et_avg:" << std::endl;
     std::cout << Et_avg << std::endl;
